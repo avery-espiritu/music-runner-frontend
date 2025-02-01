@@ -147,7 +147,8 @@ export class ClickerGame extends Scene
         }
 
         this.timeText.setText('Time: ' + Math.ceil(this.timer.getRemainingSeconds()));
-        requestAnimationFrame(this.checkIfOffScreen);
+        
+        //requestAnimationFrame(this.checkIfOffScreen);
     }
 
     keyInput ()
