@@ -42,10 +42,22 @@ export class ClickerGame extends Scene
         this.physics.add.overlap(this.player, this.coins, this.collectCoin, null, this);
 
         this.inputCooldown = 0;
+
+        
+    }
+
+    checkIfOffScreen()
+    {
+        for(coin in this.coins){
+            if(coin.x <= 0){
+                coin.destroy();
+            }
+        }
     }
 
     dropCoin ()
     {
+        /*
         const x = Phaser.Math.Between(128, 896);
         const y = Phaser.Math.Between(400, 0);
 
@@ -57,6 +69,21 @@ export class ClickerGame extends Scene
         coin.setInteractive();
 
         this.coins.push(coin);
+        */
+       //const x = Phaser.Math.Between(0, 400);
+       const x = 1000;
+       const y = 150*parseInt(Phaser.Math.Between(1, 4));
+
+       //const coin = this.physics.add.sprite(x, y, 'coin').play('rotate');
+       const coin = this.physics.add.sprite(x, y, 'coin').play('rotate').setGravity(-500,0);
+       //coin.setVelocityY(Phaser.Math.Between(-400, 400));
+       coin.setVelocityX(Phaser.Math.Between(-400, 400));
+
+       coin.setCollideWorldBounds(true);
+       //coin.setBounce(0.9);
+       coin.setInteractive();
+
+       this.coins.push(coin);
     }
 
     collectCoin(player, coin) {
@@ -120,6 +147,7 @@ export class ClickerGame extends Scene
         }
 
         this.timeText.setText('Time: ' + Math.ceil(this.timer.getRemainingSeconds()));
+        requestAnimationFrame(this.checkIfOffScreen);
     }
 
     keyInput ()
