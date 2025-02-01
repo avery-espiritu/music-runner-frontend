@@ -34,7 +34,7 @@ export class Preloader extends Scene
         this.load.image('player', 'favicon.png');
         this.load.image('background', 'background.png');
         this.load.image('logo', 'cc-logo.png');
-        this.load.atlas('coin', 'piskel.png', 'coin.json');
+        this.load.atlas('coin', 'coin.png', 'coin.json');
     }
 
     create ()

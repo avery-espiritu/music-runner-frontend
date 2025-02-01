@@ -1,7 +1,7 @@
 {
 	"textures": [
 		{
-			"image": "piskel.png",
+			"image": "coin.png",
 			"format": "RGBA8888",
 			"size": {
 				"w": 787,
