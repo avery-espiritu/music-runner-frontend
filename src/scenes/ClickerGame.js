@@ -32,6 +32,7 @@ export class ClickerGame extends Scene
         }
 
         this.player = this.physics.add.sprite(100, 300, 'player');
+        this.player.setWidth = 1000;
         this.player.setCollideWorldBounds(true);
 
         // this.physics.add.overlap(player, gameObject, this.clickCoin(gameObject), null, this);
