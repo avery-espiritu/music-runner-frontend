@@ -100,7 +100,8 @@ export class ClickerGame extends Scene
 
     collectCoin(player, coin) {
         // Update the score or perform other actions
-        coin.play('vanish');
+        //coin.play('vanish');
+        coin.play('player');
         coin.disableBody(true, true);
 
         //  Add 1 to the score
