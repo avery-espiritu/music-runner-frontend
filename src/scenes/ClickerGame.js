@@ -12,6 +12,7 @@ export class ClickerGame extends Scene
         this.score = 0;
 
         this.coins = [];
+        // this.coins = this.physics.add.group();
 
         const textStyle = { fontFamily: 'Arial Black', fontSize: 38, color: '#ffffff', stroke: '#000000', strokeThickness: 8 };
 
@@ -72,18 +73,28 @@ export class ClickerGame extends Scene
         */
        //const x = Phaser.Math.Between(0, 400);
        const x = 1000;
-       const y = 150*parseInt(Phaser.Math.Between(1, 4));
+       const y = Phaser.Math.Between(600, 150);
 
-       //const coin = this.physics.add.sprite(x, y, 'coin').play('rotate');
-       const coin = this.physics.add.sprite(x, y, 'coin').play('rotate').setGravity(-500,0);
-       //coin.setVelocityY(Phaser.Math.Between(-400, 400));
-       coin.setVelocityX(Phaser.Math.Between(-400, 400));
+       const coin = this.physics.add.sprite(x, y, 'coin').play('rotate');
 
-       coin.setCollideWorldBounds(true);
-       //coin.setBounce(0.9);
+       coin.setVelocityX(-200);
        coin.setInteractive();
 
        this.coins.push(coin);
+
+    //    const x = 1000;
+    //    const y = 150*parseInt(Phaser.Math.Between(1, 4));
+
+    //    //const coin = this.physics.add.sprite(x, y, 'coin').play('rotate');
+    //    const coin = this.physics.add.sprite(x, y, 'coin').play('rotate');
+    //    //coin.setVelocityY(Phaser.Math.Between(-400, 400));
+    //    coin.setVelocityX(Phaser.Math.Between(-400, 400));
+
+    //    coin.setCollideWorldBounds(true);
+    //    //coin.setBounce(0.9);
+    //    coin.setInteractive();
+
+    //    this.coins.push(coin);
     }
 
     collectCoin(player, coin) {
@@ -145,6 +156,13 @@ export class ClickerGame extends Scene
                 this.inputCooldown = 20; // Set cooldown time in milliseconds
             }
         }
+
+        // this.coins.children.each(function(coin) {
+        //     if (coin.x < 0 || coin.x > this.physics.world.bounds.width 
+        //         || coin.y < 0 || coin.y > this.physics.world.bounds.height) {
+        //         coin.destroy();
+        //     }
+        // }, this);
 
         this.timeText.setText('Time: ' + Math.ceil(this.timer.getRemainingSeconds()));
         
