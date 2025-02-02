@@ -28,7 +28,24 @@ const config = {
         MainMenu,
         ClickerGame,
         GameOver
-    ]
+    ],
+    audio: {
+        disableWebAudio: true
+    }
 };
 
-export default new Game(config);
+const game = new Game(config);
+
+// Load and play the background music
+game.scene.add('BackgroundMusic', {
+    preload: function() {
+        this.load.audio('backgroundMusic', 'Funk Guitar Backing Track in C Minor.mp3');
+    },
+    create: function() {
+        const music = this.sound.add('backgroundMusic', { loop: true });
+        music.play();
+    }
+});
+
+game.scene.start('BackgroundMusic');
+export default game;
