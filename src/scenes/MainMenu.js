@@ -29,7 +29,7 @@ export class MainMenu extends Scene
 
         const instructions = [
             'How many coins can you',
-            'click in 30 seconds?',
+            'collect in 30 seconds?',
             '',
             'Click to Start!'
         ]
