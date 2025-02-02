@@ -10,13 +10,22 @@ export class ClickerGame extends Scene
     create ()
     {
         this.score = 0;
+        this.gameRunning = true;
 
         this.coins = [];
+        this.coinYValues = [];
+        let start = 235;
+        let step = 36;
+        let count = 11;
+
+        for (let i = 0; i < count; i++) {
+            this.coinYValues.push(start + i * step);
+        }
         // this.coins = this.physics.add.group();
 
         const textStyle = { fontFamily: 'Arial Black', fontSize: 38, color: '#ffffff', stroke: '#000000', strokeThickness: 8 };
 
-        this.add.image(512, 384, 'background');
+        this.background = this.add.tileSprite(512, 384, 1024, 768, 'background');
 
         this.scoreText = this.add.text(32, 32, 'Coins: 0', textStyle).setDepth(1);
         this.timeText = this.add.text(1024 - 32, 32, 'Time: 10', textStyle).setOrigin(1, 0).setDepth(1);
@@ -26,14 +35,13 @@ export class ClickerGame extends Scene
 
         this.physics.world.setBounds(0, -400, 1024, 768 + 310);
 
-        for (let i = 0; i < 3; i++)
-        {
-            this.dropCoin();
-        }
-
-        this.player = this.physics.add.sprite(100, 300, 'player');
+        this.player = this.physics.add.sprite(200, 415, 'player');
         this.player.setWidth = 1000;
         this.player.setCollideWorldBounds(true);
+        this.player.play('walk');
+
+        this.clef = this.add.sprite(80, 415, 'clef-note');
+        this.clef.setScale(1.5, 1.5)
 
         // this.physics.add.overlap(player, gameObject, this.clickCoin(gameObject), null, this);
 
@@ -45,7 +53,14 @@ export class ClickerGame extends Scene
 
         this.inputCooldown = 0;
 
-        
+        this.dropCoin();
+
+        this.coinTimer = this.time.addEvent({
+            delay: 800, // 0.8 second
+            callback: this.dropCoin,
+            callbackScope: this,
+            loop: true
+        });
     }
 
     checkIfOffScreen()
@@ -59,22 +74,10 @@ export class ClickerGame extends Scene
 
     dropCoin ()
     {
-        /*
-        const x = Phaser.Math.Between(128, 896);
-        const y = Phaser.Math.Between(400, 0);
+       if (!this.gameRunning) return;
 
-        const coin = this.physics.add.sprite(x, y, 'coin').play('rotate');
-
-        coin.setVelocityX(Phaser.Math.Between(-400, 400));
-        coin.setCollideWorldBounds(true);
-        coin.setBounce(0.9);
-        coin.setInteractive();
-
-        this.coins.push(coin);
-        */
-       //const x = Phaser.Math.Between(0, 400);
        const x = 1000;
-       const y = Phaser.Math.Between(600, 150);
+       const y = Phaser.Utils.Array.GetRandom(this.coinYValues);
 
        const coin = this.physics.add.sprite(x, y, 'coin').play('rotate');
 
@@ -82,50 +85,21 @@ export class ClickerGame extends Scene
        coin.setInteractive();
 
        this.coins.push(coin);
-
-    //    const x = 1000;
-    //    const y = 150*parseInt(Phaser.Math.Between(1, 4));
-
-    //    //const coin = this.physics.add.sprite(x, y, 'coin').play('rotate');
-    //    const coin = this.physics.add.sprite(x, y, 'coin').play('rotate');
-    //    //coin.setVelocityY(Phaser.Math.Between(-400, 400));
-    //    coin.setVelocityX(Phaser.Math.Between(-400, 400));
-
-    //    coin.setCollideWorldBounds(true);
-    //    //coin.setBounce(0.9);
-    //    coin.setInteractive();
-
-    //    this.coins.push(coin);
     }
 
     collectCoin(player, coin) {
         // Update the score or perform other actions
-        //coin.play('vanish');
-        coin.play('vanish');
         coin.disableBody(true, true);
 
-        //  Add 1 to the score
-        this.score++;
+        // const musicNote = this.physics.add.sprite(coin.x, coin.y, 'musicnote');
+        // musicNote.setVelocityX(-200);
+        // musicNote.setInteractive();
 
-        //  Update the score text
-        this.scoreText.setText('Coins: ' + this.score);
+        // const musicNote = this.physics.add.sprite(coin.x, coin.y, 'musicnote');
+        // musicNote.setVelocityX(-200);
+        // musicNote.setInteractive();
 
-        //  Drop a new coin
-        this.dropCoin();
-    }
-    
-    clickCoin (coin)
-    {
-        //  Disable the coin from being clicked
-        coin.disableInteractive();
-
-        //  Stop it from moving
-        coin.setVelocity(0, 0);
-
-        //  Play the 'vanish' animation
-        coin.play('vanish');
-
-        coin.once('animationcomplete-vanish', () => coin.destroy());
+        // this.coins.push(musicNote);
 
         //  Add 1 to the score
         this.score++;
@@ -133,13 +107,15 @@ export class ClickerGame extends Scene
         //  Update the score text
         this.scoreText.setText('Coins: ' + this.score);
 
+        // this.coins.push(musicNote);
+
         //  Drop a new coin
-        this.dropCoin();
+        // this.dropCoin();
     }
 
     update ()
     {
-        const moveAmount = 30
+        const moveAmount = 36
 
         // Check for cursor key input and update player velocity accordingly
         // setTimeout(() => {
@@ -150,12 +126,12 @@ export class ClickerGame extends Scene
         }
 
         if (this.inputCooldown <= 0) {
-            if (this.cursors.up.isDown && this.player.y - moveAmount >= 0) {
+            if (this.cursors.up.isDown && this.player.y - moveAmount >= 6*36) {
                 this.player.y -= moveAmount;
-                this.inputCooldown = 20; // Set cooldown time in milliseconds
-            } else if (this.cursors.down.isDown && this.player.y + moveAmount <= this.physics.world.bounds.height) {
+                this.inputCooldown = 12; // Set cooldown time in milliseconds
+            } else if (this.cursors.down.isDown && this.player.y + moveAmount <= 410 + (5*36)) {
                 this.player.y += moveAmount;
-                this.inputCooldown = 20; // Set cooldown time in milliseconds
+                this.inputCooldown = 12; // Set cooldown time in milliseconds
             }
         }
 
@@ -167,6 +143,8 @@ export class ClickerGame extends Scene
         // }, this);
 
         this.timeText.setText('Time: ' + Math.ceil(this.timer.getRemainingSeconds()));
+
+        this.background.tilePositionX += 1;
         
         //requestAnimationFrame(this.checkIfOffScreen);
     }
@@ -182,13 +160,14 @@ export class ClickerGame extends Scene
 
     gameOver ()
     {
+        this.gameRunning = false;
+
         this.coins.forEach((coin) => {
 
             if (coin.active)
             {
                 coin.setVelocity(0, 0);
-
-                coin.play('vanish');
+                // coin.disableBody(true, true);
             }
 
         });

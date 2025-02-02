@@ -14,7 +14,9 @@ export class GameOver extends Scene
 
         const textStyle = { fontFamily: 'Arial Black', fontSize: 64, color: '#ffffff', stroke: '#000000', strokeThickness: 8 };
 
-        this.add.image(512, 384, 'background');
+        this.add.image(512, 384, 'game-over');
+
+        this.add.text(512, 300, `Game Over\n\nHigh Score: ${score}`, textStyle).setAlign('center').setOrigin(0.5);
 
         this.add.text(512, 300, `Game Over\n\nHigh Score: ${score}`, textStyle).setAlign('center').setOrigin(0.5);
 
