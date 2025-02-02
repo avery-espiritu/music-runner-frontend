@@ -22,7 +22,7 @@ export class ClickerGame extends Scene
         this.timeText = this.add.text(1024 - 32, 32, 'Time: 10', textStyle).setOrigin(1, 0).setDepth(1);
 
         //  Our 10 second timer. It starts automatically when the scene is created.
-        this.timer = this.time.addEvent({ delay: 10000, callback: () => this.gameOver() });
+        this.timer = this.time.addEvent({ delay: 30000, callback: () => this.gameOver() });
 
         this.physics.world.setBounds(0, -400, 1024, 768 + 310);
 
@@ -101,7 +101,7 @@ export class ClickerGame extends Scene
     collectCoin(player, coin) {
         // Update the score or perform other actions
         //coin.play('vanish');
-        coin.play('player');
+        coin.play('vanish');
         coin.disableBody(true, true);
 
         //  Add 1 to the score

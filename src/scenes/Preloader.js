@@ -33,7 +33,7 @@ export class Preloader extends Scene
         this.load.setPath('assets');
         this.load.image('player', 'frogbutactuallynormal.png');
         this.load.image('background', 'nightpixelart3.png');
-        this.load.image('logo', 'cc-logo.png');
+        this.load.image('logo', 'jazzfroglogo2.png');
         this.load.atlas('coin', 'coin.png', 'coin.json');
     }
 

@@ -29,12 +29,12 @@ export class MainMenu extends Scene
 
         const instructions = [
             'How many coins can you',
-            'click in 10 seconds?',
+            'click in 30 seconds?',
             '',
             'Click to Start!'
         ]
 
-        this.add.text(512, 550, instructions, textStyle).setAlign('center').setOrigin(0.5);
+        this.add.text(512, 590, instructions, textStyle).setAlign('center').setOrigin(0.5);
 
         this.input.once('pointerdown', () => {
 
